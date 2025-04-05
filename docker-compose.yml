@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgresql:
+    profiles:
+      - postgresql
+    container_name: postgresql
+    image: postgres:latest
+    ports:
+      - ${PG_PORT}:5432
+    restart: always
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: ${PG_DB}
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+
+  pgadmin:
+    profiles:
+      - postgresql
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    ports:
+      - ${PGADMIN_PORT}:80
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASS}
+    volumes:
+      - ./pgadmin4/data:/var/lib/pgadmin
+    depends_on:
+      - postgresql

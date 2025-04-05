@@ -1,0 +1,5 @@
+.env
+
+# Postgresql
+postgresql/data/
+pgadmin4/data/
